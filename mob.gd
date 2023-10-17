@@ -14,6 +14,7 @@ func initialize(start_position, player_position):
 	rotate_y(randf_range(-PI/4, PI/4))
 	velocity = Vector3.FORWARD * speed
 	velocity = velocity.rotated(Vector3.UP, rotation.y)
+	$AnimationPlayer.speed_scale = 4 * speed / max_speed
 
 
 func _on_visible_on_screen_notifier_3d_screen_exited():

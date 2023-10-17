@@ -24,8 +24,11 @@ func _physics_process(delta):
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
 		$Pivot.look_at(position + direction, Vector3.UP)
+		$AnimationPlayer.speed_scale = 4
+	else:
+		$AnimationPlayer.speed_scale = 1
 		
-	if Input.is_action_pressed("jump") and is_on_floor():
+	if is_on_floor() and Input.is_action_pressed("jump"):
 		target_velocity.y = jump_impulse
 	
 	for index in range(get_slide_collision_count()):
@@ -42,8 +45,13 @@ func _physics_process(delta):
 	
 	if not is_on_floor():
 		target_velocity.y -= fall_acceleration * delta
+	elif target_velocity.y < 0:
+		target_velocity.y = min(target_velocity.y + fall_acceleration * delta * 2, 0)
 	
 	velocity = target_velocity
+	
+	$Pivot.rotation.x = PI/6 * velocity.y / jump_impulse
+	
 	move_and_slide()
 
 
