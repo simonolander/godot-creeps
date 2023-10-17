@@ -2,6 +2,9 @@ from http.server import SimpleHTTPRequestHandler
 import socketserver
 
 class CustomHandler(SimpleHTTPRequestHandler):
+    def translate_path(self, path):
+        return super().translate_path("./build/web/" + path)
+
     def end_headers(self):
         self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
         self.send_header("Cross-Origin-Opener-Policy", "same-origin")
