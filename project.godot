@@ -70,5 +70,6 @@ jump={
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
 quality/driver/driver_name="GLES2"
 quality/filters/msaa=3

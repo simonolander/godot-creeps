@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://d014afww6s6ej"]
+[gd_scene load_steps=11 format=3 uid="uid://d014afww6s6ej"]
 
 [ext_resource type="PackedScene" uid="uid://b74plgbgwigvm" path="res://art/player.glb" id="1_8vck3"]
 [ext_resource type="Script" path="res://player.gd" id="1_iolbb"]
+[ext_resource type="Script" path="res://shadow.gd" id="3_ymh7j"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ux32s"]
 radius = 0.959165
@@ -9,6 +10,33 @@ radius = 0.959165
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_3kt00"]
 height = 0.199024
 radius = 1.02244
+
+[sub_resource type="Animation" id="Animation_021hf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Character:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot/Character:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_yut3n"]
 resource_name = "float"
@@ -39,38 +67,21 @@ tracks/1/keys = {
 "values": [Vector3(0, 0, 0), Vector3(0.139626, 0, 0), Vector3(-0.15708, 0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_021hf"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Pivot/Character:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Pivot/Character:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_x7h7h"]
 _data = {
 "RESET": SubResource("Animation_021hf"),
 "float": SubResource("Animation_yut3n")
 }
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ey0ln"]
+transparency = 1
+albedo_color = Color(0, 0, 0, 0.501961)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_6w6jy"]
+material = SubResource("StandardMaterial3D_ey0ln")
+top_radius = 1.0
+bottom_radius = 1.0
+height = 0.001
 
 [node name="Player" type="CharacterBody3D"]
 collision_mask = 6
@@ -100,5 +111,10 @@ autoplay = "float"
 libraries = {
 "": SubResource("AnimationLibrary_x7h7h")
 }
+
+[node name="Shadow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.326889, 0)
+mesh = SubResource("CylinderMesh_6w6jy")
+script = ExtResource("3_ymh7j")
 
 [connection signal="body_entered" from="MobDetector" to="." method="_on_mob_detector_body_entered"]

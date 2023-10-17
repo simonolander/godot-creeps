@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://b0oiryjxab2ga"]
+[gd_scene load_steps=9 format=3 uid="uid://b0oiryjxab2ga"]
 
 [ext_resource type="PackedScene" uid="uid://c0hahqpav7yt3" path="res://art/mob.glb" id="1_amxje"]
 [ext_resource type="Script" path="res://mob.gd" id="1_xuimp"]
+[ext_resource type="Script" path="res://shadow.gd" id="3_uej0f"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_p82dk"]
 size = Vector3(1.63925, 0.9, 2.15623)
@@ -40,6 +41,16 @@ _data = {
 "float": SubResource("Animation_r8750")
 }
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qorq8"]
+transparency = 1
+albedo_color = Color(0, 0, 0, 0.501961)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ui001"]
+material = SubResource("StandardMaterial3D_qorq8")
+top_radius = 1.0
+bottom_radius = 1.0
+height = 0.001
+
 [node name="Mob" type="CharacterBody3D" groups=["mob"]]
 collision_layer = 2
 collision_mask = 0
@@ -63,5 +74,10 @@ autoplay = "float"
 libraries = {
 "": SubResource("AnimationLibrary_g5db5")
 }
+
+[node name="Shadow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.326889, 0)
+mesh = SubResource("CylinderMesh_ui001")
+script = ExtResource("3_uej0f")
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_exited"]
